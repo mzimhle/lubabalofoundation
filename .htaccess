@@ -1,0 +1,30 @@
+RewriteEngine On
+
+RewriteBase /
+
+DirectoryIndex index.php default.php
+
+ErrorDocument 400     /404.php
+ErrorDocument 401     /404.php
+ErrorDocument 403     /404.php
+ErrorDocument 404     /404.php
+ErrorDocument 500     /404.php
+
+Options Includes FollowSymLinks MultiViews
+
+# administration shortened
+RewriteRule  ^admin/(.*)$ 	administration/$1	[QSA,L]
+
+# Mailers
+RewriteRule ^mailers/view/([^/\.]+)/?$				mailers/view.php?code=$1				[QSA,L]
+RewriteRule ^mailers/unsubscribe/([^/\.]+)/?$	mailers/enquiry.php?code=$1			[QSA,L]
+RewriteRule ^mailers/tracking/([^/\.]+)/?$			mailers/tracking.php?tracking=$1	[QSA,L]
+RewriteRule ^mailers/ticket/([^/\.]+)/?$				mailers/ticket.php?code=$1			[QSA,L]
+RewriteRule ^mailers/enquiry/([^/\.]+)/?$			mailers/enquiry.php?code=$1			[QSA,L]
+
+# Pages
+RewriteRule ^galleries/([^/\.]+)/?$	galleries/details.php?code=$1				[QSA,L]
+
+# Redirect non-www to www:
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]

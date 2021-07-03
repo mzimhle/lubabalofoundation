@@ -1,0 +1,32 @@
+[21-Apr-2014 20:08:31 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Unknown column 'area.area_name' in 'where clause'' in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/bizloung/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('SELECT `a`.*, `...')
+#1 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'SELECT `a`.*, `...')
+#2 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('SELECT `a`.*, `...')
+#3 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(706): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#4 /home/bizloung/public_html/library/classes/class/area.php(168): Zend_Db_Adapter_Abstract->fetchAll(Object(Zend_Db_Select))
+#5 /home/bizloung/public_html/feeds/area.php(20): class_area->getAll('area.area_name ...', in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77
+[21-Apr-2014 20:08:46 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Unknown column 'area.area_name' in 'where clause'' in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/bizloung/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('SELECT `a`.*, `...')
+#1 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'SELECT `a`.*, `...')
+#2 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('SELECT `a`.*, `...')
+#3 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(706): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#4 /home/bizloung/public_html/library/classes/class/area.php(168): Zend_Db_Adapter_Abstract->fetchAll(Object(Zend_Db_Select))
+#5 /home/bizloung/public_html/feeds/area.php(20): class_area->getAll('area.area_name ...', in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77
+[21-Apr-2014 20:09:12 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Unknown column 'area.area_shortPath' in 'where clause'' in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/bizloung/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('SELECT `a`.*, `...')
+#1 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'SELECT `a`.*, `...')
+#2 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('SELECT `a`.*, `...')
+#3 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(706): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#4 /home/bizloung/public_html/library/classes/class/area.php(168): Zend_Db_Adapter_Abstract->fetchAll(Object(Zend_Db_Select))
+#5 /home/bizloung/public_html/feeds/area.php(20): class_area->getAll('area.area_short in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77
+[21-Apr-2014 20:09:24 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Column 'area_shortPath' in where clause is ambiguous' in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/bizloung/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('SELECT `a`.*, `...')
+#1 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'SELECT `a`.*, `...')
+#2 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('SELECT `a`.*, `...')
+#3 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(706): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#4 /home/bizloung/public_html/library/classes/class/area.php(168): Zend_Db_Adapter_Abstract->fetchAll(Object(Zend_Db_Select))
+#5 /home/bizloung/public_html/feeds/area.php(20): class_area->getAll('area_shortPath .. in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77

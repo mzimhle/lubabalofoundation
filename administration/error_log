@@ -1,0 +1,18 @@
+[14-May-2014 01:22:29 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Adapter_Mysqli_Exception' with message 'Access denied for user 'root'@'localhost' (using password: NO)' in /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Mysqli.php:333
+Stack trace:
+#0 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Abstract.php(304): Zend_Db_Adapter_Mysqli->_connect()
+#1 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(194): Zend_Db_Adapter_Abstract->getConnection()
+#2 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Abstract.php(824): Zend_Db_Adapter_Mysqli->describeTable('administrator', NULL)
+#3 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Abstract.php(863): Zend_Db_Table_Abstract->_setupMetadata()
+#4 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Abstract.php(970): Zend_Db_Table_Abstract->_setupPrimaryKey()
+#5 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Select.php(100): Zend_Db_Table_Abstract->info()
+#6 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Select.php(78): in /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Mysqli.php on line 333
+[14-May-2014 01:23:35 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Adapter_Mysqli_Exception' with message 'Table 'lubabalo_db.administrator' doesn't exist' in /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Mysqli.php:204
+Stack trace:
+#0 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Abstract.php(824): Zend_Db_Adapter_Mysqli->describeTable('administrator', NULL)
+#1 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Abstract.php(863): Zend_Db_Table_Abstract->_setupMetadata()
+#2 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Abstract.php(970): Zend_Db_Table_Abstract->_setupPrimaryKey()
+#3 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Select.php(100): Zend_Db_Table_Abstract->info()
+#4 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Select.php(78): Zend_Db_Table_Select->setTable(Object(class_administrator))
+#5 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Abstract.php(1006): Zend_Db_Table_Select->__construct(Object(class_administrator))
+#6 /home/lubabalo/public_html/library/classes/cl in /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Mysqli.php on line 204

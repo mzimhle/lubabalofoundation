@@ -1,0 +1,47 @@
+/*
+ * SimpleModal Basic Modal Dialog
+ * http://www.ericmmartin.com/projects/simplemodal/
+ * http://code.google.com/p/simplemodal/
+ *
+ * Copyright (c) 2009 Eric Martin - http://ericmmartin.com
+ *
+ * Licensed under the MIT license:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *
+ * Revision: $Id: basic.css 212 2009-09-03 05:33:44Z emartin24 $
+ *
+ */
+
+
+/* Container */
+#simplemodal-container {
+						color:#4d4d4d; 
+						background-color:#ffffff; 
+						border:1px solid #b4dffc; 
+						padding:12px;
+}
+						
+#simplemodal-container code {background:#4d4d4d; border-left:3px solid #3399FF; color:#bbb; display:block; margin-bottom:20px; padding:4px 6px 6px 4px;;}
+#simplemodal-container a {color:#b4dffc;}
+
+#simplemodal-container a.modalCloseImg {
+	background: url(/admin/images/close.gif) no-repeat top right;
+	width:16px; 
+	height:16px; 
+	display: inline; 
+	z-index:3200; 
+	position: absolute;
+	cursor:pointer;
+	top:6px;
+	right:6px;
+	float: right;
+}
+
+#simplemodal-container a.modal-close,
+#simplemodal-container a.modal-close:link,
+#simplemodal-container a.modal-close:active,
+#simplemodal-container a.modal-close:visited {text-decoration:none; font-weight:bold; font-size:1.2em; position:absolute; top:-6px; right:6px; color:#999;}
+#simplemodal-container a.modal-close:hover {color:#9EB5CC;}
+
+#simplemodal-container #editContainer {padding:0;}
+

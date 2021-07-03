@@ -1,0 +1,274 @@
+﻿<?php
+/**
+ * Smarty plugin smarty_imagetext
+ * Original concept by: Christoph Erdmann (CE) & Marcus Gueldenmeister (MG)
+ * Rewritten By: Johan Steyn
+ * Date: 07 August 2008
+ *
+ * This plugin is meant to create a text image, rotated , transparent or normal. All stylesheet params can be overridden by smart params.
+ *
+ * Params:
+ * text		text for imagetext
+ * id		id of img tag
+ * name		name of img tag / if no id specified id = name
+ *
+ * 
+ *
+ *
+ *
+ */
+if (!isset($smarty->imagetextcount)) $smarty->imagetextcount = 0;
+if (!function_exists('readINIfile'))
+	{
+	function readINIfile ($filename, $commentchar)
+		{
+		$array1 = file($filename);
+		$section = '';
+		foreach ($array1 as $filedata)
+			{
+			$dataline = trim($filedata);
+			$firstchar = substr($dataline, 0, 1);
+			if ($firstchar!=$commentchar && $dataline!='')
+				{
+				//It's an entry (not a comment and not a blank line)
+				if ($firstchar == '[' && substr($dataline, -1, 1) == ']')
+					{
+					//It's a section
+					$section = strtolower(substr($dataline, 1, -1));
+					}
+				else
+					{
+					//It's a key...
+					$delimiter = strpos($dataline, '=');
+					if ($delimiter > 0)
+						{
+						//...with a value
+						$key = strtolower(trim(substr($dataline, 0, $delimiter)));
+						$value = trim(substr($dataline, $delimiter + 1));
+						if (substr($value, 0, 1) == '"' && substr($value, -1, 1) == '"') { $value = substr($value, 1, -1); }
+						$array2[$section][$key] = stripcslashes($value);
+						}
+					else
+						{
+						//...without a value
+						$array2[$section][strtolower(trim($dataline))]='';
+						}
+					}
+				}
+			}
+			return $array2;
+		}
+}
+function hex2rgb($hex , $transparent = false)
+{
+	sscanf($hex, "%2x%2x%2x", $red, $green, $blue);
+	return array('r'=>$red,'g'=>$green,'b'=>$blue , 'a' => ($transparent)? 127 : 0);
+}
+
+function saveAlpha(&$img)
+{
+	imagesavealpha($img, true);
+    imagealphablending($img, false);
+}
+function convertSpecialChar($string)
+{
+
+	$string = str_replace('&amp;','&',$string);
+	preg_match_all('/\&.*?;/i',$string,$matches);
+	$matches = $matches[0];
+	$replace = array();
+	foreach($matches as $match)
+	{
+		$replace[] = html_entity_decode(strtolower($match));
+	}
+	$string =str_replace($matches,$replace,$string);
+	return $string;
+}
+ function ImageFillAlpha($image, $color)
+{
+	imagefilledrectangle($image, 0, 0, imagesx($image), imagesy($image), $color);
+}
+function smarty_imagetext($params)
+{
+	global $smarty,$siteConfig;
+		// Read config file
+    if (empty($params['textcache'])) $textcache_root = $siteConfig['textcache']['directories']['ini'];
+	else $textcache_root = $params['textcache'];
+
+	$config = readINIfile("$textcache_root/styles.ini",';');
+	$config['main']['folder']	= "$textcache_root";
+	$config['main']['fonts']	= $siteConfig['textcache']['directories']['fonts'];
+	$config['main']['cache']	= $siteConfig['textcache']['directories']['cache']; // Nur dieser Ordner muss öffentlich zugänglich sein
+	$config['main']['livelink']	= $siteConfig['textcache']['directories']['cache']; // Nur dieser Ordner muss öffentlich zugänglich sein
+
+	$style = $config[$params['style']];
+	//params override aswell
+	foreach ($params as $key=>$value) if ($key != 'text') $style[$key] = $value;
+	
+	if(!isset($style['multiply']) || $style['multiply'] =='')
+	{
+		$style['multiply'] = 10;
+	}
+
+	if(!isset($style['angle']) || $style['angle'] =='' || $style['rotate'] == 0)
+	{
+		$style['angle'] = 0;
+	}
+
+	//if no bgcolour
+	if(!isset($style['bgcolor']) || $style['bgcolor'] =='')
+	{
+		$style['bgcolor'] = 'FFFFFF';
+		
+	}
+	$style['addx'] = (!empty($style['addx']))? $style['addx'] : 0;
+	$style['addy'] = (!empty($style['addy']))? $style['addy'] : 0;
+	
+
+/*	
+	//if a background is white or black, transparency is not set, and ext is not a jpeg, turn on transparency, white/black would be considered nothing	
+	if((strtoupper($style['bgcolor']) == 'FFFFFF' || strtoupper($style['bgcolor']) == '000000') && $style['ext'] != 'jpg' && !isset($style['transparent']))
+	{	
+		$style['transparent'] = true;
+	}
+	
+	// rather use png for transparency .. because its nicer :)
+	if($style['transparent'] && $style['ext'] =='' )
+	{
+		$style['ext'] = 'png';
+	}
+*/
+	//if no id
+	if(!isset($style['id']) || $style['id'] =='')
+	{
+		$style['id'] = $style['name'];
+	}
+
+	$params['text'] = preg_replace("=<br( /)?>=i", "\n", $params['text']);
+	$params['text'] = convertSpecialChar($params['text']);
+	$params['text'] = trim($params['text']);
+	//set font location
+	$style['font'] = rtrim($config['main']['fonts'],'/').'/'.$style['font'];
+
+	
+
+	//create hash url
+	$hash = md5(implode('',$style).$params['text']);
+	$imgurl	= $config['main']['cache'].$params['style'].'_'.$hash.'.'.$style['ext'];
+
+	if ($style['dynamic'] || $style['dev'])
+	{
+		$hash = md5(implode('',$style).$smarty->imagetextcount);
+		$imgurl = $config['main']['cache'].$smarty->imagetextcount.'_'.$hash.'.'.$style['ext'];
+		$smarty->imagetextcount++;
+	}
+	// Return cached image if there is any
+	$newimgurl = str_replace($siteConfig['root'] , '', $imgurl);
+
+	if (!file_exists($imgurl) || $style['dev'] == true || $style['dynamic'] == true)
+	{
+		// If "pixelfont" don´t use multiplier
+		if ($style['pixelfont'] == 1) $style['multiply'] = 1;
+	 
+        //Save and repair angle
+		if($style['angle'] !='')
+		{
+			$angle = $style['angle'];
+			
+			while ($angle < 0) {
+				$angle += 360;
+			}
+			if ($angle > 359) {
+				$angle = $angle % 360;
+			}
+			$style['angle'] = $angle;		
+		}
+		
+		//create dummy image box for dynamic purposes
+		$bbox = imagettfbbox($style['size'] * $style['multiply'], $style['angle'], $style['font'], $params['text']);
+		$xcorr = 0-$bbox[6]; // northwest X
+		$ycorr = 0-$bbox[7]; // northwest Y
+		$box['left']	= $bbox[6]+$xcorr+$style['x']*$style['multiply'];
+		$box['height']	= abs($bbox[5])+abs($bbox[1]);
+		$box['width']	= abs($bbox[2])+abs($bbox[0])+$style['x']*$style['multiply'];
+		$box['top']		= abs($bbox[5]);
+	
+		
+		unset($bbox);
+	
+		if ($style['pixelfont'] == 1) $fgcolor = -$fgcolor;
+		
+		$imgText = imagecreatetruecolor($box['width'], $box['height']);
+			
+		
+		
+		// Sample down the big image
+		$width = $style['width']+$style['addx'];
+		$height = $style['height']+$style['addy'];
+
+		// Overwrite when height oder width is given
+		if (empty($style['width'])) $width = $box['width']/$style['multiply']+$style['addx']+$style['x'];
+		if (empty($style['height'])) $height = $box['height']/$style['multiply']+$style['addy']+$style['y'];
+						
+		
+		$imgTextResampled = imagecreatetruecolor($width, $height);
+		
+		if ($style['transparent']) 
+		{
+			saveAlpha($imgText);
+			saveAlpha($imgTextResampled);
+        }
+
+        if ($style['transparent'] === null) 
+		{
+            $style['transparent'] = true;
+            saveAlpha($imgText);
+			saveAlpha($imgTextResampled);
+            $arBg = array('r'=>255,'g'=>255,'b'=>255 , 'a' => 127);
+        } else {
+            $arBg  = hex2rgb($style['bgcolor'], $style['transparent']);
+        }
+		$colBg = imagecolorallocatealpha($imgText, $arBg['r'], $arBg['g'], $arBg['b'], $arBg['a']);
+        imagefilledrectangle($imgText, 0, 0,  $box['width'], $box['height'] ,$colBg);
+		$colBg = imagecolorallocatealpha($imgTextResampled, $arBg['r'], $arBg['g'], $arBg['b'], $arBg['a']);
+        imagefilledrectangle($imgTextResampled, 0, 0,  $width, $height ,$colBg);
+		
+		$arFg  = hex2rgb($style['fgcolor']);
+		$colFg = imagecolorallocate($imgText,$arFg['r'],$arFg['g'],$arFg['b']);
+		
+		imagettftext($imgText, $style['size'] * $style['multiply'],$style['angle'], $box['left'], $box['top'], $colFg, $style['font'], $params['text']);
+		
+		saveAlpha($imgText);
+		saveAlpha($imgTextResampled);
+		imagecopyresampled($imgTextResampled, $imgText, $style['y'],0, 0, 0, $box['width']/$style['multiply'], $box['height']/$style['multiply'],$box['width'], $box['height']);
+		
+		
+		if($style['transparent'] && $style['ext']=='')
+		{
+			$style['ext'] = 'png';
+		}
+		
+		switch ($style['ext'])
+		{
+			case 'gif' : imagegif($imgTextResampled, $imgurl); break;
+			case 'png' : imagepng($imgTextResampled, $imgurl); break;
+			case 'jpg' : imagejpeg($imgTextResampled, $imgurl); break;
+			default: imagegif($imgTextResampled, $imgurl);
+		}		
+	}else
+	{
+		$imgSize = getimagesize($imgurl);
+		$width = $imgSize[0];
+		$height = $imgSize[1];
+	}
+	
+	//just get dimensions of image
+
+	return $style['prehtml'].'<img id="'.$style['id'].'" name="'.$style['name'].'" src="'.$newimgurl.'" border="0" alt="'.$params['text'].'" width="'.$width.'" height="'.$height.'" class="'.$style['class'].'" />'.$style['posthtml'];
+	
+	
+	unset($style,$imgSize);
+
+}
+
+?>

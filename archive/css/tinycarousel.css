@@ -1,0 +1,28 @@
+/* Tiny Carousel */
+#logos { height: 1%; overflow: hidden; padding: 0 0 10px;}
+#logos .viewport{ float: left; width: 900px; height: 93px; overflow: hidden; position: relative;}
+#logos .buttons{
+display: block;
+margin: 30px 10px 0 0;
+float: left;
+width: 21px;
+height: 28px;
+position: relative;
+background: url(../img/lft_arr.gif) no-repeat left;
+text-indent: -99999px;
+text-align: left;
+}
+#logos .buttons:hover{
+background: url(../img/lft_arr_hover.gif) no-repeat left;
+}
+#logos .next{
+margin: 30px 0 0 10px;
+float: right;
+background: url(../img/rgt_arr.gif) no-repeat right;
+}
+#logos .next:hover{
+background: url(../img/rgt_arr_hover.gif) no-repeat right;
+}
+#logos .disable { visibility: hidden; }
+#logos .overview { list-style: none; position: absolute; padding: 0; margin: 0; width: 1000px; left: 0; top: 0; }
+#logos .overview li{ float: left; margin: 0 20px 0 0; height: 93px; width: 210px; text-align: center}

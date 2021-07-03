@@ -1,0 +1,233 @@
+<?php
+/*
+ * Smarty plugin "ImageText"
+ * Purpose: creates graphical headlines
+ * Home: http://www.cerdmann.com/imagetext/
+ * Copyright (C) 2005 Christoph Erdmann
+ * 
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+ * 
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA 
+ * -------------------------------------------------------------
+ * Author:   Christoph Erdmann (CE)
+ * Internet: http://www.cerdmann.com
+ *
+ * Author: Marcus Gueldenmeister (MG)
+ * Internet: http://www.gueldenmeister.de/marcus/
+ *
+ * ToDo:
+ * Trim should be automatically on true. Set width or height overwrites trim.
+ *
+ * Changelog:
+ * 2006-01-12 Bugfix: x and y were ignored on trimmed images (CE)
+ * 2006-01-08 Added "addy" and "urlonly" (CE)
+ * 2006-01-08 Image is now trimmed automatically. Use width and height to set new static dimensions (CE)
+ * 2005-11-28 Corrected title-tag and alt-tag handling (CE)
+ * 2005-11-23 Improved tag recognizing in prefilter (CE)
+ * 2005-10-18 Added block function to correct a bug with the prefilter (CE)
+ * 2005-09-18 New prefilter available (CE)
+ * 2005-09-07 Bugfix (CE)
+ * 2005-07-24 Works with older GD versions (PNG-support only) (CE)
+ * 2005-07-21 Works with Safemode (CE)
+ * 2005-07-10 New "pixelfont" parameter (CE)
+ * 2005-07-03 Made img-tags XHTML compatible (CE)
+ * 2005-06-15 New "textcache" parameter (MG)
+ * 2005-06-14 Bug: parameter 'x' was ignored - fixed (MG)
+ * 2005-06-13 html title attribute added, alt+ title removed if html is added (MG)
+ * 2004-11-28 New "html"-paramter to use additional HTML-attributes (CE)
+ * 2004-11-28 New "dynamic"-paramter recreates images without waste files (CE)
+ * 2004-11-26 Some Change in structure, better documentation, better error-handling (CE)
+ * 2004-11-25 Support for prehtml and posthtml (CE)
+ * -------------------------------------------------------------
+ */
+
+if (!isset($smarty->imagetextcount)) $smarty->imagetextcount = 0;
+if (!function_exists('readINIfile'))
+	{
+	function readINIfile ($filename, $commentchar)
+		{
+		$array1 = file($filename);
+		$section = '';
+		foreach ($array1 as $filedata)
+			{
+			$dataline = trim($filedata);
+			$firstchar = substr($dataline, 0, 1);
+			if ($firstchar!=$commentchar && $dataline!='')
+				{
+				//It's an entry (not a comment and not a blank line)
+				if ($firstchar == '[' && substr($dataline, -1, 1) == ']')
+					{
+					//It's a section
+					$section = strtolower(substr($dataline, 1, -1));
+					}
+				else
+					{
+					//It's a key...
+					$delimiter = strpos($dataline, '=');
+					if ($delimiter > 0)
+						{
+						//...with a value
+						$key = strtolower(trim(substr($dataline, 0, $delimiter)));
+						$value = trim(substr($dataline, $delimiter + 1));
+						if (substr($value, 0, 1) == '"' && substr($value, -1, 1) == '"') { $value = substr($value, 1, -1); }
+						$array2[$section][$key] = stripcslashes($value);
+						}
+					else
+						{
+						//...without a value
+						$array2[$section][strtolower(trim($dataline))]='';
+						}
+					}
+				}
+			}
+			return $array2;
+		}
+	}
+	
+function smarty_imagetext($params)
+	{
+	global $smarty,$siteConfig;
+	//$params['dev'] = true;
+	
+	### Preferences
+	// Read config file
+    /*if (empty($params['textcache'])) $textcache_root = $siteConfig['textcache']['directories']['ini'];
+	else $textcache_root = $params['textcache'];*/
+	 if (empty($params['textcache'])) $textcache_root = $_SERVER['DOCUMENT_ROOT'].'/images/textcache';
+	else $textcache_root = $params['textcache'];
+
+	/*$config = readINIfile("$textcache_root/styles.ini",';');
+	$config['main']['folder']	= "$textcache_root";
+	$config['main']['fonts']	= $siteConfig['textcache']['directories']['fonts'];
+	$config['main']['cache']	= $siteConfig['textcache']['directories']['cache']; // Nur dieser Ordner muss öffentlich zugänglich sein
+	$config['main']['livelink']	= $siteConfig['textcache']['directories']['cache']; // Nur dieser Ordner muss öffentlich zugänglich sein
+*/
+
+	$config = readINIfile("$textcache_root/styles.ini",';');
+	$config['main']['folder']	= "$textcache_root/";
+	$config['main']['fonts']	= "$textcache_root/fonts/";
+	$config['main']['cache']	= $_SERVER['DOCUMENT_ROOT']."/cache/textcache/"; // Nur dieser Ordner muss öffentlich zugänglich sein
+	$config['main']['livelink']	= "/images/textcache/cache/"; 
+	// Which style is in use
+	$style = $config[$params['style']];
+	// Param values overwrite style values
+	foreach ($params as $key=>$value) if ($key != 'text') $style[$key] = $value;
+
+	// Error handling
+    if (empty($params['text'])) { $smarty->trigger_error("imagetext: missing 'text' parameter"); return; }
+    if (empty($params['style'])) { $smarty->trigger_error("imagetext: missing 'style' parameter"); return; }
+    if (empty($style['font'])) { $smarty->trigger_error("imagetext: missing 'font' parameter"); return; }
+    if (empty($style['size'])) { $smarty->trigger_error("imagetext: missing 'size' parameter"); return; }
+    if (empty($style['bgcolor'])) { $style['bgcolor'] = 'FFFFFF'; }
+    if (empty($style['fgcolor'])) { $style['fgcolor'] = '000000';  }
+    if (empty($style['angle'])) { $style['angle'] = 0;  }
+
+	
+	
+	$tagId = '';
+	
+	if (!empty($params['id'])) {  
+		$tagId = ' id="'.$params['id'].'" name="'.$params['id'].'" ';
+	}
+	
+	$align = '';
+	if (!empty($params['align'])) {  
+		$align = ' align="'.$params['align'].'"';
+	}	
+	
+	$class = '';
+	if (!empty($params['class'])) {  
+		$class = ' class="'.$params['class'].'"';
+	}
+	
+	$params['text'] = preg_replace("=<br( /)?>=i", "\n", $params['text']);
+	
+	// Is there an older GD version? Then use PNG instead of GIF
+	if (function_exists('ImageGIF')) $ext = 'gif'; else $ext = 'png';
+	// Which font is in use
+	$font = $config['main']['fonts'].$style['font'];
+	// Hash of text and all parameters for the cache function
+	$hash = md5(implode('',$style).$params['text']);
+	//gen a unique name
+	$name = ereg_replace("[^0-9a-zA-Z]", "", $params['text']);
+	// The url of the created image
+	$imgurl	= $config['main']['cache'].$params['style'].'_'.$hash.'_'.$name.'.'.$ext;
+	// The url is changing on dynamic images
+	if ($style['dynamic'] OR $style['dev'])
+		{
+		$hash = md5(implode('',$style).$smarty->imagetextcount);
+		$imgurl	= $config['main']['cache'].$smarty->imagetextcount.'_'.$hash.'_'.$name.'.'.$ext;
+		$smarty->imagetextcount++;
+		}
+		
+
+	### Use cached image if available
+	if (file_exists($imgurl) && $style['dev'] != true && $style['dynamic'] != true) 
+          if ($style['urlonly'] == 'true') return $imgurl; else
+		  if ( empty($style['html']) ) return $style['prehtml'].'<img '.$tagId.' '.$align.' src="'.str_replace($_SERVER['DOCUMENT_ROOT'],'',$imgurl).'" border="0" alt="'.preg_replace("=\r\n|\r|\n|\t=", ' ', htmlspecialchars($params['text'])).'" '.$style['html'].' />'.$style['posthtml'];
+          else return $style['prehtml'].'<img '.$tagId.' '.$align.' '.$class.' src="'.str_replace($_SERVER['DOCUMENT_ROOT'],'',$imgurl).'" border="0" '.$style['html'].' />'.$style['posthtml'];
+
+	### otherwise create it
+	// Function to get a color handler of hex values
+	if (!function_exists('fromhex'))
+		{
+		function fromhex($image,$string) {
+			sscanf($string, "%2x%2x%2x", $red, $green, $blue);
+			return ImageColorAllocate($image,$red,$green,$blue);
+			}
+   		}
+	
+	### create a four times larger image to improve kerning
+	// The multiplier. The bigger the better the kerning and the typeface, but the slower the creation
+	$multi = (empty($style['multiply']))? 4:$style['multiply'];
+
+	// If "pixelfont" don´t use multiplier
+	if ($style['pixelfont'] == 1) $multi = 1;
+	// Calculate measures of image
+	$bbox = imagettfbbox ($style['size']*$multi, $style['angle'], $font, $params['text']);
+	$xcorr = 0-$bbox[6]; // northwest X
+	$ycorr = 0-$bbox[7]; // northwest Y
+	$box['left']	= $bbox[6]+$xcorr+$style['x']*$multi;
+	$box['height']	= abs($bbox[5])+abs($bbox[1]);
+	$box['width']	= abs($bbox[2])+abs($bbox[0])+$style['x']*$multi;
+	$box['top']		= abs($bbox[5]);
+
+	// Create the big image
+	$im = imagecreate ($box['width'], $box['height']);
+	$bgcolor = fromhex($im,$style['bgcolor']);
+	$fgcolor = fromhex($im,$style['fgcolor']);
+	if ($style['pixelfont'] == 1) $fgcolor = -$fgcolor;
+	imagettftext ($im, $style['size']*$multi, $style['angle'], $box['left'], $box['top'], $fgcolor, $font, $params['text']);
+
+	// Sample down the big image
+	$width = $style['width']+$style['addx'];
+	$height = $style['height']+$style['addy'];
+	
+	// Overwrite when height oder width is given
+	if (empty($style['width'])) $width = $box['width']/$multi+$style['addx']+$style['x'];
+	if (empty($style['height'])) $height = $box['height']/$multi+$style['addy']+$style['y'];
+	
+	$ds = imagecreatetruecolor ($width, $height);
+	$bgcolor2 = fromhex($ds,$style['bgcolor']);
+	imagefilledrectangle($ds,0,0,$width, $height,$bgcolor2);
+	imagecopyresampled($ds,$im,0,$style['y'],0,0,$box['width']/$multi, $box['height']/$multi,$box['width'], $box['height']);
+	imagetruecolortopalette($ds,0,256);
+	imagepalettecopy($ds,$im);
+	ImageColorTransparent($ds,$bgcolor);
+
+
+   	// write whereto?
+	if ($ext == 'gif') ImageGIF ($ds,$imgurl); else ImagePNG ($ds,$imgurl);
+	ImageDestroy ($im);
+	ImageDestroy ($ds);
+
+	// and display
+	if ($style['dev']) $border = 1; else $border = 0;
+    if ($style['urlonly'] == 'true') return $imgurl;
+		else
+		if ( empty($style['html']) ) return $style['prehtml'].'<img '.$tagId.' '.$align.' src="'.str_replace($_SERVER['DOCUMENT_ROOT'],'',$imgurl).'" style="border: '.$border.'px solid #00ff00" alt="'.preg_replace("=\r\n|\r|\n|\t=", ' ', htmlspecialchars($params['text'])).'" '.$style['html'].' />'.$style['posthtml'];
+        else return $style['prehtml'].'<img '.$tagId.' '.$align.' '.$class.' src="'.str_replace($_SERVER['DOCUMENT_ROOT'],'',$imgurl).'" style="border: '.$border.'px solid #00ff00" '.$style['html'].' />'.$style['posthtml'];
+	}
+?>

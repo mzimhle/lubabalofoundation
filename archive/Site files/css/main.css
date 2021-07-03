@@ -1,0 +1,400 @@
+html,
+button,
+input,
+select,
+textarea {
+color: #222;
+}
+html {
+font-size: 1em;
+line-height: 1.4;
+}
+body{
+font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
+text-align: center;
+}
+h1, h2, h3, h4, h5{
+font-family: 'Garamond', "Times New Roman", Georgia, Times, serif;
+font-size: 44px;
+font-weight: bold;
+color: #7f0023;
+margin: 0 0 30px 0;
+}
+p{
+font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
+font-size: 14px;
+}
+a{
+font-size: 11px;
+color: #2a2928;
+text-decoration: none;
+background: none;
+}
+::-moz-selection {
+background: #b3d4fc;
+text-shadow: none;
+}
+::selection{
+background: #b3d4fc;
+text-shadow: none;
+}
+hr{
+display: block;
+height: 1px;
+border: 0;
+border-top: 1px solid #ccc;
+margin: 1em 0;
+padding: 0;
+}
+audio,
+canvas,
+img,
+video {
+vertical-align: middle;
+}
+textarea {
+resize: vertical;
+}
+.hidden{
+display: none !important;
+visibility: hidden;
+}
+.topbar{
+background: url(../img/top_bck.png) repeat top;
+padding: 21px 0;
+position: absolute;
+top: 0px;
+width: 100%;
+z-index: 2;
+}
+.wrap{
+text-align: left;
+margin: auto;
+width: 1000px;
+}
+.logobox{
+float: left;
+width: 282px;
+}
+.navbar{
+text-align: right;
+float: right;
+top: 0px;
+margin-left: 472px;
+position: absolute;
+width: 600px;
+}
+.navbar a{
+text-align: left;
+float: left;
+width: 117px;
+height: 114px;
+background: #000;
+margin: 0 0 0 15px;
+}
+.navbar a:hover{
+background: #7f0023;
+}
+a.actbtn{
+background: #7f0023;
+}
+.flexslider{
+width: 100%;
+max-height: 494px;
+overflow: hidden;
+z-index: 1;
+position: relative;
+}
+.slidetxt{
+position: absolute;
+z-index: 11;
+text-align: left;
+top: 140px;
+}
+.slidetxt p{
+font-family: 'Garamond', "Times New Roman", Georgia, Times, serif;
+font-size: 28px;
+font-style: italic;
+color: #FFF;
+padding: 5px 18px 5px 10px;
+background: url(../img/top_bck.png) repeat;
+margin: 0 0 3px 0;
+display: inline-block;
+}
+@media only screen and (max-width: 1024px){
+.slidetxt{
+top: 130px;
+}
+.slidetxt p{
+font-size: 24px;
+}
+}
+p.stxt1{
+padding: 5px 15px 5px 10px;
+margin-left: 15px;
+}
+p.stxt2{
+padding: 5px 20px 5px 8px;
+margin-left: 5px;
+}
+#pattern{
+background: url(../img/slider-patern.png) repeat 50% 50%;
+position: absolute;
+height: 100%;
+width: 100%;
+z-index: 10;
+}
+.boxes{
+text-align: left;
+margin: 0;
+padding: 35px 0 48px 0;
+}
+.redbox{
+color: #FFF;
+background: #7f0023;
+}
+.redbox p{
+margin-bottom: 0px; 
+}
+.redbox h1{
+color: #FFF;
+}
+.whitebox{
+color: #2a2928;
+background: #FFF;
+}
+.countbox{
+float: left;
+width: 561px;
+}
+.countbox div{
+font-family: 'Garamond', "Times New Roman", Georgia, Times, serif;
+font-size: 65px;
+text-align: center;
+font-weight: bold;
+color: #7f0023;
+background: #FFF;
+padding: 0 7px;
+width: 100px;
+float: left;
+margin: 0 26px 0 0;
+}
+.countbox span{
+font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
+font-size: 13px;
+font-weight: normal;
+text-transform: lowercase;
+color: #FFF;
+background: #000;
+padding: 4px 10px;
+display: block;
+margin: 0 -7px 0 -7px;
+}
+.linkbox{
+background: #2a2928;
+margin: 15px 0 0 0;
+padding: 35px 0 60px 0;
+}
+.linkbox .wrap div{
+text-align: center;
+margin: -60px 0 0 50px;
+width: 270px;
+padding: 45px 15px 20px 15px;
+float: left;
+}
+.linkbox .wrap div span{
+font-family: 'Garamond', "Times New Roman", Georgia, Times, serif !important;
+font-size: 38px;
+color: #FFF;
+display: block;
+padding-bottom: 10px;
+}
+.linkbox .wrap div p{
+font-family: 'Garamond', "Times New Roman", Georgia, Times, serif !important;
+font-size: 16px;
+color: #FFF;
+}
+div.klink{
+margin: -60px 0 0 0 !important;
+background: #7f0023;
+}
+div.tlink{
+background: #156400;
+}
+div.plink{
+background: #997d0c;
+}
+.sponbox{
+background: #EEE;
+padding: 45px 0 48px 0;
+}
+.bwwrap{
+cursor: pointer;
+}
+.dgreybox{
+background: #292827;
+}
+.greybox{
+background: #EEE;
+}
+.galbox{
+padding: 18px 0 0 0;
+}
+.galtag{
+font-size: 12px;
+color: #FFF;
+text-transform: uppercase;
+background: url(../img/top_bck.png) repeat;
+padding: 8px 10px;
+z-index: 3;
+position: relative;
+margin-top: -50px;
+width: 208px;
+height: 50px;
+}
+footer{
+margin: 15px 0 0 0;
+}
+.footlinks{
+font-size: 11px;
+line-height: 18px;
+color: #666;
+width: 700px;
+float: left;
+}
+.footlinks a{
+text-transform: uppercase;
+font-size: 11px;
+color: #666;
+text-decoration: none;
+padding: 0 5px 0 5px;
+}
+.footlinks a:first-child{
+padding: 0 5px 0 0;
+}
+.footlinks a:hover{
+font-size: 11px;
+color: #000;
+text-decoration: underline;
+}
+.soclinks{
+float: right;
+text-align: right;
+width: 300px;
+}
+.soclinks a{
+margin: 0 0 0 4px;
+}
+
+/* ============================================================================
+	Flexislider styles
+   ============================================================================= */
+.flex-container a:active,
+.flexslider a:active,
+.flex-container a:focus,
+.flexslider a:focus  {outline: none;}
+.slides, .flex-control-nav, .flex-direction-nav {margin: 0; padding: 0; list-style: none;}
+
+/* FlexSlider Necessary Styles
+*********************************/
+.flexslider {margin: 0; padding: 0;}
+.flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img {width: 100%; display: block;}
+.flex-pauseplay span {text-transform: capitalize;}
+
+/* Clearfix for the .slides element */
+.slides:after {content: "\0020"; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+html[xmlns] .slides {display: block;}
+* html .slides {height: 1%;}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {display: block;}
+
+/* FlexSlider Default Theme
+*********************************/
+.flexslider { margin: 0; background: #fff; position: relative; zoom: 1; }
+.flex-viewport { max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; -o-transition: all 1s ease; transition: all 1s ease; }
+.loading .flex-viewport { max-height: 300px; }
+.flexslider .slides { zoom: 1; }
+/* ============================================================================
+	Flexislider styles ends
+   ============================================================================= */
+.cf:before,
+.cf:after{
+content: " ";
+display: table;
+}
+.cf:after{
+clear: both;
+}
+.cf{
+*zoom: 1;
+}
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}

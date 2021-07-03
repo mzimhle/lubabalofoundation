@@ -1,0 +1,26 @@
+[15-Feb-2014 11:07:50 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Column 'areatype_code' in where clause is ambiguous' in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/bizloung/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('SELECT `a`.*, `...')
+#1 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'SELECT `a`.*, `...')
+#2 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('SELECT `a`.*, `...')
+#3 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(782): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#4 /home/bizloung/public_html/library/classes/class/area.php(198): Zend_Db_Adapter_Abstract->fetchPairs(Object(Zend_Db_Select))
+#5 /home/bizloung/public_html/administration/participants/view/notify.php(48): class_a in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77
+[27-Mar-2014 11:32:06 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Column 'areatype_code' in where clause is ambiguous' in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/bizloung/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('SELECT `a`.*, `...')
+#1 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'SELECT `a`.*, `...')
+#2 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('SELECT `a`.*, `...')
+#3 /home/bizloung/public_html/library/classes/Zend/Db/Adapter/Abstract.php(782): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#4 /home/bizloung/public_html/library/classes/class/area.php(198): Zend_Db_Adapter_Abstract->fetchPairs(Object(Zend_Db_Select))
+#5 /home/bizloung/public_html/administration/participants/view/notify.php(48): class_a in /home/bizloung/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77
+[27-May-2014 23:25:00 Africa/Johannesburg] PHP Warning:  Smarty error: unable to read resource: "templates/emails/ticket_send.html" in /home/lubabalo/public_html/library/classes/smarty/Smarty.class.php on line 1095
+[27-May-2014 23:27:05 Africa/Johannesburg] PHP Warning:  Smarty error: unable to read resource: "templates/emails/ticket_send.html" in /home/lubabalo/public_html/library/classes/smarty/Smarty.class.php on line 1095
+[28-May-2014 00:01:50 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Unknown column 'audititem_deleted' in 'field list'' in /home/lubabalo/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/lubabalo/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('UPDATE `partici...')
+#1 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'UPDATE `partici...')
+#2 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('UPDATE `partici...')
+#3 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Abstract.php(604): Zend_Db_Adapter_Abstract->query('UPDATE `partici...', Array)
+#4 /home/lubabalo/public_html/library/classes/Zend/Db/Table/Abstract.php(1110): Zend_Db_Adapter_Abstract->update('participanttick...', Array, Array)
+#5 /home/lubabalo/public_html/library/classes/class/participantticke in /home/lubabalo/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77

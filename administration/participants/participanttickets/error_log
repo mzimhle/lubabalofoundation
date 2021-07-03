@@ -1,0 +1,17 @@
+[14-May-2014 09:46:22 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Unknown column 'eventdeleted' in 'on clause'' in /home/lubabalo/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/lubabalo/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('SELECT `partici...')
+#1 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'SELECT `partici...')
+#2 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('SELECT `partici...')
+#3 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Abstract.php(706): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#4 /home/lubabalo/public_html/library/classes/class/participantticket.php(66): Zend_Db_Adapter_Abstract->fetchAll(Object(Zend_Db_Select))
+#5 /home/lubabalo/public_html/administration/participants/participanttickets/defaul in /home/lubabalo/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77
+[14-May-2014 09:47:15 Africa/Johannesburg] PHP Fatal error:  Uncaught exception 'Zend_Db_Statement_Mysqli_Exception' with message 'Mysqli prepare error: Unknown column 'eventdeleted' in 'on clause'' in /home/lubabalo/public_html/library/classes/Zend/Db/Statement/Mysqli.php:77
+Stack trace:
+#0 /home/lubabalo/public_html/library/classes/Zend/Db/Statement.php(115): Zend_Db_Statement_Mysqli->_prepare('SELECT `partici...')
+#1 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Mysqli.php(381): Zend_Db_Statement->__construct(Object(Zend_Db_Adapter_Mysqli), 'SELECT `partici...')
+#2 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Abstract.php(467): Zend_Db_Adapter_Mysqli->prepare('SELECT `partici...')
+#3 /home/lubabalo/public_html/library/classes/Zend/Db/Adapter/Abstract.php(706): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#4 /home/lubabalo/public_html/library/classes/class/participantticket.php(66): Zend_Db_Adapter_Abstract->fetchAll(Object(Zend_Db_Select))
+#5 /home/lubabalo/public_html/administration/participants/participanttickets/defaul in /home/lubabalo/public_html/library/classes/Zend/Db/Statement/Mysqli.php on line 77
+[27-May-2014 23:54:43 Africa/Johannesburg] PHP Warning:  Smarty error: unable to read resource: "templates/emails/ticket_send.html" in /home/lubabalo/public_html/library/classes/smarty/Smarty.class.php on line 1095
